@@ -489,8 +489,11 @@
           return acc;
         }, {});
 
-        // Sort by Brand
-        const sortedBrands = Object.keys(grouped).sort();
+        // Sort brands by quantity of data (from most to least items)
+        const sortedBrands = Object.keys(grouped).sort((a, b) => {
+          // Sort by number of items for each brand
+          return grouped[b].length - grouped[a].length;
+        });
 
         for (const brand of sortedBrands) {
           const items = grouped[brand];
