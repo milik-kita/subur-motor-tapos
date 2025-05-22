@@ -111,43 +111,158 @@
       @media print {
         @page {
           size: A4;
-          margin: 10mm;
+          margin: 8mm; /* Slightly reduced margins for more content space */
         }
-        .print:hidden {
-          display: none;
-        }
-        .page-break {
-          page-break-after: always;
-        }
+
+        /* Base styles */
         body {
           print-color-adjust: exact;
           -webkit-print-color-adjust: exact;
+          font-family: Arial, sans-serif !important; /* More readable font for print */
         }
-        .print-shadow-none {
-          box-shadow: none !important;
+
+        /* Hide elements not needed for print */
+        .print\\:hidden {
+          display: none !important;
         }
-        .print-compact th,
+
+        /* Table text sizes - IMPROVED READABILITY */
+        .print-compact th {
+          padding: 6px 8px !important;
+          font-size: 20pt !important; /* Larger header text */
+          font-weight: bold !important;
+          background-color: #000 !important;
+          color: white !important;
+          border: 2px solid #000 !important; /* Thicker borders */
+          text-transform: uppercase !important;
+        }
+
         .print-compact td {
-          padding: 4px 6px !important;
-          font-size: 0.75rem !important;
+          padding: 4px 8px !important;
+          font-size: 18pt !important; /* Larger data text */
+          border: 1px solid #000 !important;
+          line-height: 1.2 !important; /* Better line spacing */
         }
+
+        /* Make price numbers bold */
+        .print-compact td.text-right {
+          font-weight: bold !important;
+        }
+
+        /* Grid layout - better spacing */
         .grid-layout {
           grid-template-columns: repeat(2, 1fr);
-          gap: 0.5rem;
+          gap: 12mm; /* Increased gap for clarity */
+          page-break-inside: auto;
         }
-        .brand-header {
-          padding: 0.75rem !important;
-        }
+
+        /* Section styling for side-by-side layout */
         section {
           break-inside: avoid;
           page-break-inside: avoid;
+          box-shadow: none !important;
+          border: none !important;
+          margin-bottom: 12mm !important; /* More space between sections */
+          display: flex !important;
+          flex-direction: column !important;
         }
-        .tire-pattern {
-          width: 2.5rem !important;
-          height: 2.5rem !important;
+
+        /* Special print layout for each section */
+        section .print-layout {
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: flex-start !important;
         }
-        h2 {
-          font-size: 0.9rem !important;
+
+        /* Hide the original brand header in print */
+        .brand-header {
+          display: none !important;
+        }
+
+        /* Image container - IMPROVED */
+        .print-image-container {
+          width: 10rem !important; /* Wider container for images */
+          margin-right: 1.5rem !important;
+          display: flex !important;
+          align-items: flex-start !important;
+          justify-content: center !important;
+        }
+
+        /* Image sizing - LARGER & CLEARER */
+        .print-image {
+          width: 10rem !important;
+          height: 10rem !important;
+          background-size: contain !important;
+          background-position: center !important;
+          background-repeat: no-repeat !important;
+          border: 1px solid #ddd !important; /* Light border for image definition */
+          background-color: white !important; /* Ensure white background */
+          padding: 4px !important;
+        }
+
+        /* Table container takes remaining width */
+        .print-table-container {
+          flex: 1 !important;
+          max-width: calc(
+            100% - 12rem
+          ) !important; /* Ensure proper space allocation */
+        }
+
+        /* Performance category headers - MORE PROMINENT */
+        .performance-header {
+          background-color: black !important;
+          color: white !important;
+          padding: 4px 8px !important;
+          font-size: 16pt !important;
+          font-weight: bold !important;
+          margin-bottom: 6px !important;
+          margin-top: 10px !important;
+          text-transform: uppercase !important;
+          letter-spacing: 1px !important; /* Better letter spacing */
+          text-align: center !important;
+        }
+
+        /* Hide currency prefix */
+        .tire-details td.text-right::before {
+          content: "" !important;
+        }
+
+        /* Table layout - IMPROVED */
+        .table-container {
+          overflow: visible !important;
+          margin-bottom: 8px !important;
+        }
+
+        table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          border: 2px solid black !important; /* Thicker outer border */
+          margin-bottom: 10px !important;
+        }
+
+        /* Header styling */
+        header {
+          margin-bottom: 10mm !important;
+          padding-bottom: 5mm !important;
+          border-bottom: 1px solid black !important;
+        }
+
+        /* Logo sizing */
+        .logo {
+          width: 7rem !important;
+          height: auto !important;
+        }
+
+        /* Better title sizing */
+        h1 {
+          font-size: 24pt !important;
+          margin-bottom: 4mm !important;
+        }
+
+        /* Footer spacing */
+        footer {
+          margin-top: 10mm !important;
+          font-size: 9pt !important;
         }
       }
     </style>
@@ -169,16 +284,17 @@
             <img
               src="./assets/logo.png"
               alt="Zeneos Logo"
-              class="w-24 md:w-28 mr-4"
+              class="w-24 md:w-28 mr-4 logo"
             />
-            <div>
-              <h1 class="text-xl md:text-2xl font-bold uppercase">
-                Subur Motor Tapos
-              </h1>
-              <p class="text-sm text-zeneos-red font-medium mt-1">
-                Daftar Harga Eceran
-              </p>
-            </div>
+          </div>
+
+          <div class="flex-1 text-center">
+            <h1 class="text-xl md:text-2xl font-bold uppercase print:8xl">
+              Subur Motor Tapos
+            </h1>
+            <p class="text-sm text-zeneos-red font-medium mt-1 detail">
+              Daftar Harga Eceran
+            </p>
           </div>
 
           <div class="flex flex-col items-center">
@@ -186,7 +302,7 @@
               <img
                 src="./assets/qrcode.png"
                 alt="QR Code"
-                class="w-16 h-16 md:w-20 md:h-20"
+                class="w-16 h-16 md:w-20 md:h-20 logo"
               />
             </div>
             <p class="text-xs text-gray-600 mt-2">Scan untuk katalog digital</p>
@@ -498,12 +614,43 @@
         for (const brand of sortedBrands) {
           const items = grouped[brand];
 
-          // Sort items by size
+          // Replace the existing sorting code with this improved approach
           items.sort((a, b) => {
-            // Extract numbers from size for numeric comparison
-            const numA = parseInt(a.Size.match(/\d+/)[0]);
-            const numB = parseInt(b.Size.match(/\d+/)[0]);
-            return numA - numB;
+            // Extract rim size (the number after the dash)
+            const getRimSize = (size) => {
+              const match = size.match(/[-]\s*(\d+)/); // Matches "- 14" or "-14"
+              return match ? parseInt(match[1]) : 0;
+            };
+
+            // Extract width (first number in the size format)
+            const getWidth = (size) => {
+              const match = size.match(/^(\d+)/);
+              return match ? parseInt(match[1]) : 0;
+            };
+
+            // Check if size has RS suffix
+            const hasRS = (size) => {
+              return /RS/i.test(size);
+            };
+
+            // First compare rim sizes
+            const rimSizeA = getRimSize(a.Size);
+            const rimSizeB = getRimSize(b.Size);
+
+            if (rimSizeA !== rimSizeB) {
+              return rimSizeA - rimSizeB; // Sort by rim size (14 before 17)
+            }
+
+            // If same rim size, check for RS suffix
+            const aHasRS = hasRS(a.Size);
+            const bHasRS = hasRS(b.Size);
+
+            if (aHasRS !== bHasRS) {
+              return aHasRS ? 1 : -1; // Regular sizes before RS
+            }
+
+            // If same rim size and both have or don't have RS, sort by width
+            return getWidth(a.Size) - getWidth(b.Size);
           });
 
           const section = document.createElement("section");
@@ -512,31 +659,26 @@
 
           const brandImageUrl = patternImages[brand] || "placeholder.jpg";
 
-          section.innerHTML = `
-          <div class="p-4 cursor-pointer brand-header flex items-center justify-between transition-colors hover:bg-gray-50" data-brand="${brand}">
-            <div class="flex items-center gap-3">
-              <div class="bg-gray-100 w-12 h-12 md:w-14 md:h-14 rounded-lg p-2 flex-shrink-0 tire-pattern" 
-                   style="background-image: url('${brandImageUrl}')"></div>
-              <div>
-                <h2 class="text-base md:text-lg font-semibold">${brand}</h2>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="bg-zeneos-gray text-xs font-medium px-2 py-0.5 rounded-full">${
-                    items.length
-                  } ukuran</span>
-                  <span class="text-xs md:text-sm text-gray-500">Ban Motor</span>
-                </div>
-              </div>
-            </div>
-            <i class="fas fa-chevron-down text-gray-400 collapse-icon transition-transform"></i>
-          </div>
-          
-          <div class="tire-details px-3 pb-4">
-            <div class="table-container">
+          // Group items by performance category
+          const regularItems = [];
+          const highPerformanceItems = [];
+
+          items.forEach((item) => {
+            if (item.Size.includes("RS")) {
+              highPerformanceItems.push(item);
+            } else {
+              regularItems.push(item);
+            }
+          });
+
+          // Generate table HTML for a category
+          const generateTableHTML = (items) => {
+            return `
               <table class="w-full border-collapse text-xs md:text-sm print-compact">
                 <thead>
                   <tr>
-                    <th class="border px-3 py-2 bg-zeneos-dark text-white text-left">Ukuran</th>
-                    <th class="border px-3 py-2 bg-zeneos-dark text-white text-right">Harga Eceran</th>
+                    <th class="border px-3 py-2 bg-zeneos-dark text-white text-left">UKURAN</th>
+                    <th class="border px-3 py-2 bg-zeneos-dark text-white text-right">HARGA</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -545,7 +687,7 @@
                       (item) => `
                     <tr class="hover:bg-gray-50">
                       <td class="border px-3 py-2 font-medium">${item.Size}</td>
-                      <td class="border px-3 py-2 text-right">Rp ${item[
+                      <td class="border px-3 py-2 text-right">${item[
                         "Price (IDR)"
                       ].toLocaleString("id-ID")}</td>
                     </tr>`
@@ -553,9 +695,70 @@
                     .join("")}
                 </tbody>
               </table>
+            `;
+          };
+
+          // Standard web view layout
+          section.innerHTML = `
+            <div class="p-4 cursor-pointer brand-header flex items-center justify-between transition-colors hover:bg-gray-50" data-brand="${brand}">
+              <div class="flex items-center gap-3">
+                <div class="bg-gray-100 w-16 h-16 rounded-lg p-2 flex-shrink-0 tire-pattern" 
+                     style="background-image: url('${brandImageUrl}')"></div>
+                <div>
+                  <h2 class="text-base md:text-lg font-semibold">${brand}</h2>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="bg-zeneos-gray text-xs font-medium px-2 py-0.5 rounded-full">${
+                      items.length
+                    } ukuran</span>
+                  </div>
+                </div>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 collapse-icon transition-transform"></i>
             </div>
-          </div>
-        `;
+            
+            <div class="tire-details">
+              <div class="table-container">
+                ${
+                  regularItems.length > 0 ? generateTableHTML(regularItems) : ""
+                }
+                
+                ${
+                  highPerformanceItems.length > 0
+                    ? `<div class="performance-header">High Performance</div>
+                   ${generateTableHTML(highPerformanceItems)}`
+                    : ""
+                }
+              </div>
+            </div>
+            
+            <!-- Special print layout - IMPROVED -->
+            <div class="print-layout hidden print:block">
+              <div class="print-image-container">
+                <div class="print-image" style="background-image: url('${brandImageUrl}')"></div>
+              </div>
+              <div class="print-table-container">
+                ${
+                  regularItems.length > 0
+                    ? `${
+                        brand === "TURINO" ||
+                        brand === "MILANO" ||
+                        brand === "VICTURO"
+                          ? '<div class="performance-header">Racing Tire</div>'
+                          : ""
+                      }
+                   ${generateTableHTML(regularItems)}`
+                    : ""
+                }
+                
+                ${
+                  highPerformanceItems.length > 0
+                    ? `<div class="performance-header">High Performance</div>
+                   ${generateTableHTML(highPerformanceItems)}`
+                    : ""
+                }
+              </div>
+            </div>
+          `;
 
           gridContainer.appendChild(section);
         }
